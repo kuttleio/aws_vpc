@@ -44,7 +44,7 @@ resource "aws_subnet" "private_subnets" {
 resource "aws_route_table" "public_route" {
   count  = var.az_count * (var.enable_public_subnets == "true" ? 1 : 0)
   vpc_id = aws_vpc.vpc.id
-  tags   = merge(var.tags, tomap("Name", "${var.vpc_name}-${var.enable_internet_gateway == "true" ? "public-rt-${count.index + 1}" : "private-rt-${count.index + 1 + (var.az_count * (var.enable_private_subnets == "true" ? 1 : 0))}"}"))
+  tags   = merge(var.tags, tomap({ Name = "${var.vpc_name}-${var.enable_internet_gateway == "true" ? "public-rt-${count.index + 1}" : "private-rt-${count.index + 1 + (var.az_count * (var.enable_private_subnets == "true" ? 1 : 0))}"}" }))
 }
 
 resource "aws_route" "public_igw" {
